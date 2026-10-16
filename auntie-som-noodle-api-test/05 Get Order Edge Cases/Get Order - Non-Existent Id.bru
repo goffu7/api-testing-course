@@ -1,0 +1,26 @@
+meta {
+  name: Get Order - Non-Existent Id
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/orders/ORD-doesnotexist
+  body: none
+  auth: none
+}
+
+tests {
+  test("status is 404", function () {
+    expect(res.status).to.equal(404);
+  });
+
+  test("error says order not found", function () {
+    expect(res.body.error).to.match(/not found/i);
+  });
+
+  test("no order data is returned", function () {
+    expect(res.body).to.not.have.property("orderId");
+    expect(res.body).to.not.have.property("totalPrice");
+  });
+}

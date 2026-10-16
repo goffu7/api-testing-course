@@ -1,0 +1,36 @@
+meta {
+  name: Create Order - Item Not Found
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/orders
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "itemId": 999,
+    "quantity": 1
+  }
+}
+
+tests {
+  test("status is 404", function () {
+    expect(res.status).to.equal(404);
+  });
+
+  test("error says item not found", function () {
+    expect(res.body.error).to.match(/not found/i);
+  });
+
+  test("no order is created", function () {
+    expect(res.body).to.not.have.property("orderId");
+  });
+}

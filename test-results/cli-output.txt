@@ -1,0 +1,160 @@
+01 Auth\Login - Valid Credentials (200 OK) - 14 ms
+Tests
+   ✓ status is 200
+   ✓ accessToken is a non-empty UUID string
+   ✓ expiresIn is 3600 seconds
+   ✓ token was saved to the environment
+01 Auth\Login - Wrong Password (401 UNAUTHORIZED) - 4 ms
+Tests
+   ✓ status is 401
+   ✓ no token is issued
+   ✓ error message is returned
+01 Auth\Login - Missing Fields (401 UNAUTHORIZED) - 3 ms
+Tests
+   ✓ status is 401
+   ✓ no token is issued
+02 Happy Path Order\Get Menu - Before Order (200 OK) - 3 ms
+Tests
+   ✓ status is 200
+   ✓ menu is a non-empty array
+   ✓ every item has id, name, price and stock with correct types
+   ✓ no item has negative stock
+   ✓ at least one item is in stock to order
+02 Happy Path Order\Create Order - Valid (200 OK) - 3 ms
+Tests
+   ✕ totalPrice equals menu price x quantity
+      expected 45 to equal 50
+   ✓ status is 200
+   ✓ orderId has the ORD-xxxxxx format
+   ✓ status is 'created'
+02 Happy Path Order\Get Order - By Id (200 OK) - 2 ms
+Tests
+   ✕ stored totalPrice equals menu price x quantity
+      expected 45 to equal 50
+   ✓ status is 200
+   ✓ returns the same orderId
+   ✓ status is 'created'
+   ✓ stored totalPrice matches what POST /orders returned
+02 Happy Path Order\Get Menu - After Order (200 OK) - 2 ms
+Tests
+   ✓ status is 200
+   ✓ stock of the ordered item dropped by exactly 1
+03 Order Auth Checks\Create Order - No Token (401 UNAUTHORIZED) - 3 ms
+Tests
+   ✓ status is 401
+   ✓ no order is created
+03 Order Auth Checks\Create Order - Invalid Token (401 UNAUTHORIZED) - 4 ms
+Tests
+   ✓ status is 401
+   ✓ no order is created
+03 Order Auth Checks\Create Order - Item Not Found (404 NOT FOUND) - 3 ms
+Tests
+   ✓ status is 404
+   ✓ error says item not found
+   ✓ no order is created
+04 Stock and Quantity Rules\Get Menu - Pick Item A (200 OK) - 2 ms
+Tests
+   ✓ status is 200
+   ✓ an item in stock exists
+04 Stock and Quantity Rules\Create Order - Quantity Exceeds Stock (200 OK) - 3 ms
+Tests
+   ✕ status is 400 (request rejected)
+      expected 200 to equal 400
+   ✕ no order is created
+      expected { orderId: 'ORD-9d7439', …(2) } to not have property 'orderId'
+   ✕ an error message is returned
+      expected undefined to be a string
+04 Stock and Quantity Rules\Get Menu - Stock Never Negative (200 OK) - 3 ms
+Tests
+   ✕ no item has negative stock
+      Tom Yum Noodles stock: expected -1 to be at least +0
+   ✕ rejected over-order did not change item A stock
+      expected -1 to equal 1
+   ✓ status is 200
+   ✓ an item in stock exists for the next tests
+04 Stock and Quantity Rules\Create Order - Zero Quantity (200 OK) - 3 ms
+Tests
+   ✕ status is 400 (request rejected)
+      expected 200 to equal 400
+   ✕ no order is created
+      expected { orderId: 'ORD-73b3dc', …(2) } to not have property 'orderId'
+   ✕ an error message is returned
+      expected undefined to be a string
+   ✕ totalPrice is never negative or zero
+      expected -5 to be above +0
+04 Stock and Quantity Rules\Create Order - Negative Quantity (200 OK) - 3 ms
+Tests
+   ✕ status is 400 (request rejected)
+      expected 200 to equal 400
+   ✕ no order is created
+      expected { orderId: 'ORD-ee33bd', …(2) } to not have property 'orderId'
+   ✕ an error message is returned
+      expected undefined to be a string
+   ✕ totalPrice is never negative
+      expected -50 to be above +0
+04 Stock and Quantity Rules\Create Order - Missing Quantity (500 INTERNAL SERVER ERROR) - 10 ms
+Tests
+   ✕ server does not crash (no 5xx)
+      expected 500 to be below 500
+   ✕ status is 400 (request rejected)
+      expected 500 to equal 400
+   ✕ an error message is returned
+      expected undefined to be a string
+   ✓ no order is created
+04 Stock and Quantity Rules\Create Order - Quantity Is Text (500 INTERNAL SERVER ERROR) - 8 ms
+Tests
+   ✕ server does not crash (no 5xx)
+      expected 500 to be below 500
+   ✕ status is 400 (request rejected)
+      expected 500 to equal 400
+   ✕ an error message is returned
+      expected undefined to be a string
+   ✓ no order is created
+04 Stock and Quantity Rules\Get Menu - Read Item B (200 OK) - 3 ms
+Tests
+   ✕ invalid quantity orders did not change item B stock
+      expected 2 to equal 1
+   ✓ status is 200
+04 Stock and Quantity Rules\Create Order - Buy All Remaining Stock (200 OK) - 2 ms
+Tests
+   ✕ totalPrice equals menu price x quantity
+      expected 85 to equal 90
+   ✓ status is 200
+   ✓ status is created
+04 Stock and Quantity Rules\Create Order - Sold Out Item (400 BAD REQUEST) - 3 ms
+Tests
+   ✓ status is 400 (request rejected)
+   ✓ no order is created
+   ✓ an error message is returned
+   ✓ error says out of stock
+04 Stock and Quantity Rules\Get Menu - Sold Out Item Shows Zero (200 OK) - 3 ms
+Tests
+   ✓ status is 200
+   ✓ sold out item has stock exactly 0
+05 Get Order Edge Cases\Get Order - Non-Existent Id (200 OK) - 3 ms
+Tests
+   ✕ status is 404
+      expected 200 to equal 404
+   ✓ error says order not found
+   ✓ no order data is returned
+05 Get Order Edge Cases\Get Order - Existing Id Still Stored (200 OK) - 3 ms
+Tests
+   ✓ status is 200
+   ✓ the order from the happy path is still stored
+
+📊 Execution Summary
+┌───────────────┬───────────────────────────┐
+│ Metric        │          Result           │
+├───────────────┼───────────────────────────┤
+│ Status        │          ✗ FAIL           │
+├───────────────┼───────────────────────────┤
+│ Requests      │ 23 (12 Passed, 11 Failed) │
+├───────────────┼───────────────────────────┤
+│ Tests         │           49/73           │
+├───────────────┼───────────────────────────┤
+│ Assertions    │            0/0            │
+├───────────────┼───────────────────────────┤
+│ Duration (ms) │           2428            │
+└───────────────┴───────────────────────────┘
+Wrote html results to ../test-results/report.html
+Wrote junit results to ../test-results/junit.xml

@@ -1,0 +1,33 @@
+meta {
+  name: Get Order - By Id
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/orders/{{orderId}}
+  body: none
+  auth: none
+}
+
+tests {
+  test("status is 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("returns the same orderId", function () {
+    expect(res.body.orderId).to.equal(bru.getVar("orderId"));
+  });
+
+  test("status is 'created'", function () {
+    expect(res.body.status).to.equal("created");
+  });
+
+  test("stored totalPrice matches what POST /orders returned", function () {
+    expect(res.body.totalPrice).to.equal(Number(bru.getVar("orderTotalPrice")));
+  });
+
+  test("stored totalPrice equals menu price x quantity", function () {
+    expect(res.body.totalPrice).to.equal(Number(bru.getVar("orderItemPrice")) * 1);
+  });
+}

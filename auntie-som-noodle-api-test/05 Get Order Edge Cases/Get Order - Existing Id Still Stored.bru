@@ -1,0 +1,22 @@
+meta {
+  name: Get Order - Existing Id Still Stored
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/orders/{{orderId}}
+  body: none
+  auth: none
+}
+
+tests {
+  test("status is 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("the order from the happy path is still stored", function () {
+    expect(res.body.orderId).to.equal(bru.getVar("orderId"));
+    expect(res.body.status).to.equal("created");
+  });
+}

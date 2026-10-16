@@ -1,0 +1,25 @@
+meta {
+  name: Login - Missing Fields
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {}
+}
+
+tests {
+  test("status is 401", function () {
+    expect(res.status).to.equal(401);
+  });
+
+  test("no token is issued", function () {
+    expect(res.body).to.not.have.property("accessToken");
+  });
+}

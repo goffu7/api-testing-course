@@ -1,0 +1,41 @@
+meta {
+  name: Get Menu - Stock Never Negative
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/menu
+  body: none
+  auth: none
+}
+
+script:post-response {
+  // Item B = an in-stock item used for the quantity validation tests
+  const b = res.body.find(i => i.stock >= 1);
+  if (b) {
+    bru.setVar("itemBId", b.id);
+    bru.setVar("itemBStockInitial", b.stock);
+  }
+}
+
+tests {
+  test("status is 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("no item has negative stock", function () {
+    res.body.forEach(function (item) {
+      expect(item.stock, item.name + " stock").to.be.at.least(0);
+    });
+  });
+
+  test("rejected over-order did not change item A stock", function () {
+    const a = res.body.find(i => i.id === Number(bru.getVar("itemAId")));
+    expect(a.stock).to.equal(Number(bru.getVar("itemAStock")));
+  });
+
+  test("an item in stock exists for the next tests", function () {
+    expect(bru.getVar("itemBId")).to.not.be.undefined;
+  });
+}

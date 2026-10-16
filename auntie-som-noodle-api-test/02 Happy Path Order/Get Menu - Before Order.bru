@@ -1,0 +1,50 @@
+meta {
+  name: Get Menu - Before Order
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/menu
+  body: none
+  auth: none
+}
+
+script:post-response {
+  // Pick the first item that is in stock and remember its price / stock
+  const item = Array.isArray(res.body) ? res.body.find(i => i.stock >= 1) : null;
+  if (item) {
+    bru.setVar("orderItemId", item.id);
+    bru.setVar("orderItemPrice", item.price);
+    bru.setVar("orderItemStockBefore", item.stock);
+  }
+}
+
+tests {
+  test("status is 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("menu is a non-empty array", function () {
+    expect(res.body).to.be.an("array").that.is.not.empty;
+  });
+
+  test("every item has id, name, price and stock with correct types", function () {
+    res.body.forEach(function (item) {
+      expect(item.id, "id").to.be.a("number");
+      expect(item.name, "name").to.be.a("string").and.not.be.empty;
+      expect(item.price, "price").to.be.a("number").and.be.above(0);
+      expect(item.stock, "stock").to.be.a("number");
+    });
+  });
+
+  test("no item has negative stock", function () {
+    res.body.forEach(function (item) {
+      expect(item.stock, item.name + " stock").to.be.at.least(0);
+    });
+  });
+
+  test("at least one item is in stock to order", function () {
+    expect(bru.getVar("orderItemId"), "restart the server for a fresh menu").to.not.be.undefined;
+  });
+}

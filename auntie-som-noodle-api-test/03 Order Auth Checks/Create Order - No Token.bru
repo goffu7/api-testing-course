@@ -1,0 +1,28 @@
+meta {
+  name: Create Order - No Token
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/orders
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "itemId": 1,
+    "quantity": 1
+  }
+}
+
+tests {
+  test("status is 401", function () {
+    expect(res.status).to.equal(401);
+  });
+
+  test("no order is created", function () {
+    expect(res.body).to.not.have.property("orderId");
+  });
+}

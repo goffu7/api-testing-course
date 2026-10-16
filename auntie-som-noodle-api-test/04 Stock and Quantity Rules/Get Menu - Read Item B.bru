@@ -1,0 +1,30 @@
+meta {
+  name: Get Menu - Read Item B
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/menu
+  body: none
+  auth: none
+}
+
+script:post-response {
+  const b = res.body.find(i => i.id === Number(bru.getVar("itemBId")));
+  if (b) {
+    bru.setVar("itemBPrice", b.price);
+    bru.setVar("itemBStock", b.stock);
+  }
+}
+
+tests {
+  test("status is 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("invalid quantity orders did not change item B stock", function () {
+    const b = res.body.find(i => i.id === Number(bru.getVar("itemBId")));
+    expect(b.stock).to.equal(Number(bru.getVar("itemBStockInitial")));
+  });
+}

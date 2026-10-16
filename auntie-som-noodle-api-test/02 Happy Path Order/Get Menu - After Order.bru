@@ -1,0 +1,24 @@
+meta {
+  name: Get Menu - After Order
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/menu
+  body: none
+  auth: none
+}
+
+tests {
+  test("status is 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("stock of the ordered item dropped by exactly 1", function () {
+    const id = Number(bru.getVar("orderItemId"));
+    const item = res.body.find(i => i.id === id);
+    expect(item, "ordered item").to.exist;
+    expect(item.stock).to.equal(Number(bru.getVar("orderItemStockBefore")) - 1);
+  });
+}

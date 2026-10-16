@@ -1,0 +1,31 @@
+meta {
+  name: Get Menu - Pick Item A
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/menu
+  body: none
+  auth: none
+}
+
+script:post-response {
+  // Item A = first item in stock; used for the over-order test
+  const a = res.body.find(i => i.stock >= 1);
+  if (a) {
+    bru.setVar("itemAId", a.id);
+    bru.setVar("itemAStock", a.stock);
+    bru.setVar("overQty", a.stock + 1);
+  }
+}
+
+tests {
+  test("status is 200", function () {
+    expect(res.status).to.equal(200);
+  });
+
+  test("an item in stock exists", function () {
+    expect(bru.getVar("itemAId"), "restart the server for a fresh menu").to.not.be.undefined;
+  });
+}

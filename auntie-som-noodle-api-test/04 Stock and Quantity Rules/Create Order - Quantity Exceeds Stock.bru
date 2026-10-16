@@ -1,0 +1,36 @@
+meta {
+  name: Create Order - Quantity Exceeds Stock
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/orders
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "itemId": {{itemAId}},
+    "quantity": {{overQty}}
+  }
+}
+
+tests {
+  test("status is 400 (request rejected)", function () {
+    expect(res.status).to.equal(400);
+  });
+
+  test("no order is created", function () {
+    expect(res.body).to.not.have.property("orderId");
+  });
+
+  test("an error message is returned", function () {
+    expect(res.body.error).to.be.a("string").and.not.be.empty;
+  });
+}

@@ -1,0 +1,32 @@
+meta {
+  name: Create Order - Invalid Token
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/orders
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: not-a-real-token
+}
+
+body:json {
+  {
+    "itemId": 1,
+    "quantity": 1
+  }
+}
+
+tests {
+  test("status is 401", function () {
+    expect(res.status).to.equal(401);
+  });
+
+  test("no order is created", function () {
+    expect(res.body).to.not.have.property("orderId");
+  });
+}

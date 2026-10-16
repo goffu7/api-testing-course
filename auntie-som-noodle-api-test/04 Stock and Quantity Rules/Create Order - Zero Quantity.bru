@@ -1,0 +1,42 @@
+meta {
+  name: Create Order - Zero Quantity
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/orders
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "itemId": {{itemBId}},
+    "quantity": 0
+  }
+}
+
+tests {
+  test("status is 400 (request rejected)", function () {
+    expect(res.status).to.equal(400);
+  });
+
+  test("no order is created", function () {
+    expect(res.body).to.not.have.property("orderId");
+  });
+
+  test("an error message is returned", function () {
+    expect(res.body.error).to.be.a("string").and.not.be.empty;
+  });
+
+  test("totalPrice is never negative or zero", function () {
+    if (res.body.totalPrice !== undefined) {
+      expect(res.body.totalPrice).to.be.above(0);
+    }
+  });
+}
