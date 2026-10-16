@@ -1,0 +1,27 @@
+meta {
+  name: Get Order - Without Token
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/orders/{{orderId}}
+  body: none
+  auth: none
+}
+
+docs {
+  Security check: order details should only be visible to an authenticated
+  caller. The API reference does not list a header for this endpoint, but
+  anyone who guesses an orderId can currently read it.
+}
+
+tests {
+  test("status is 401 without a token", function () {
+    expect(res.status).to.equal(401);
+  });
+
+  test("order details are not exposed", function () {
+    expect(res.body).to.not.have.property("totalPrice");
+  });
+}

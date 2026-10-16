@@ -1,0 +1,38 @@
+meta {
+  name: Login - Null JSON Body
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  null
+}
+
+tests {
+  test("server does not crash (no 5xx)", function () {
+    expect(res.status).to.be.below(500);
+  });
+
+  test("error response is JSON, not an HTML page", function () {
+    expect(res.headers["content-type"]).to.include("application/json");
+  });
+
+  test("no stack trace or source code is leaked", function () {
+    const text = typeof res.body === "string" ? res.body : JSON.stringify(res.body);
+    expect(text).to.not.match(/Traceback|Werkzeug|app\.py/);
+  });
+
+  test("status is 400 or 401", function () {
+    expect(res.status).to.be.oneOf([400, 401]);
+  });
+
+  test("no token is issued", function () {
+    expect(res.body).to.not.have.property("accessToken");
+  });
+}

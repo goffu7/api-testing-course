@@ -1,170 +1,246 @@
 <?xml version="1.0"?>
 <testsuites>
-  <testsuite name="Login - Valid Credentials" file="01 Auth\Login - Valid Credentials.bru" errors="0" failures="0" skipped="0" tests="4" timestamp="2026-10-16T06:45:51.027" hostname="DESKTOP-93J4R83" time="0.276">
-    <testcase name="status is 200" status="pass" classname="01 Auth\Login - Valid Credentials" time="0.069"/>
-    <testcase name="accessToken is a non-empty UUID string" status="pass" classname="01 Auth\Login - Valid Credentials" time="0.069"/>
-    <testcase name="expiresIn is 3600 seconds" status="pass" classname="01 Auth\Login - Valid Credentials" time="0.069"/>
-    <testcase name="token was saved to the environment" status="pass" classname="01 Auth\Login - Valid Credentials" time="0.069"/>
+  <testsuite name="Login - Valid Credentials" file="01 Auth\Login - Valid Credentials.bru" errors="0" failures="0" skipped="0" tests="4" timestamp="2026-10-16T06:52:04.821" hostname="DESKTOP-93J4R83" time="0.288">
+    <testcase name="status is 200" status="pass" classname="01 Auth\Login - Valid Credentials" time="0.072"/>
+    <testcase name="accessToken is a non-empty UUID string" status="pass" classname="01 Auth\Login - Valid Credentials" time="0.072"/>
+    <testcase name="expiresIn is 3600 seconds" status="pass" classname="01 Auth\Login - Valid Credentials" time="0.072"/>
+    <testcase name="token was saved to the environment" status="pass" classname="01 Auth\Login - Valid Credentials" time="0.072"/>
   </testsuite>
-  <testsuite name="Login - Wrong Password" file="01 Auth\Login - Wrong Password.bru" errors="0" failures="0" skipped="0" tests="3" timestamp="2026-10-16T06:45:51.027" hostname="DESKTOP-93J4R83" time="0.076">
-    <testcase name="status is 401" status="pass" classname="01 Auth\Login - Wrong Password" time="0.025"/>
-    <testcase name="no token is issued" status="pass" classname="01 Auth\Login - Wrong Password" time="0.025"/>
-    <testcase name="error message is returned" status="pass" classname="01 Auth\Login - Wrong Password" time="0.025"/>
+  <testsuite name="Login - Wrong Password" file="01 Auth\Login - Wrong Password.bru" errors="0" failures="0" skipped="0" tests="3" timestamp="2026-10-16T06:52:04.821" hostname="DESKTOP-93J4R83" time="0.081">
+    <testcase name="status is 401" status="pass" classname="01 Auth\Login - Wrong Password" time="0.027"/>
+    <testcase name="no token is issued" status="pass" classname="01 Auth\Login - Wrong Password" time="0.027"/>
+    <testcase name="error message is returned" status="pass" classname="01 Auth\Login - Wrong Password" time="0.027"/>
   </testsuite>
-  <testsuite name="Login - Missing Fields" file="01 Auth\Login - Missing Fields.bru" errors="0" failures="0" skipped="0" tests="2" timestamp="2026-10-16T06:45:51.027" hostname="DESKTOP-93J4R83" time="0.077">
-    <testcase name="status is 401" status="pass" classname="01 Auth\Login - Missing Fields" time="0.038"/>
-    <testcase name="no token is issued" status="pass" classname="01 Auth\Login - Missing Fields" time="0.038"/>
+  <testsuite name="Login - Missing Fields" file="01 Auth\Login - Missing Fields.bru" errors="0" failures="0" skipped="0" tests="2" timestamp="2026-10-16T06:52:04.821" hostname="DESKTOP-93J4R83" time="0.088">
+    <testcase name="status is 401" status="pass" classname="01 Auth\Login - Missing Fields" time="0.044"/>
+    <testcase name="no token is issued" status="pass" classname="01 Auth\Login - Missing Fields" time="0.044"/>
   </testsuite>
-  <testsuite name="Get Menu - Before Order" file="02 Happy Path Order\Get Menu - Before Order.bru" errors="0" failures="0" skipped="0" tests="5" timestamp="2026-10-16T06:45:51.027" hostname="DESKTOP-93J4R83" time="0.173">
-    <testcase name="status is 200" status="pass" classname="02 Happy Path Order\Get Menu - Before Order" time="0.035"/>
-    <testcase name="menu is a non-empty array" status="pass" classname="02 Happy Path Order\Get Menu - Before Order" time="0.035"/>
-    <testcase name="every item has id, name, price and stock with correct types" status="pass" classname="02 Happy Path Order\Get Menu - Before Order" time="0.035"/>
-    <testcase name="no item has negative stock" status="pass" classname="02 Happy Path Order\Get Menu - Before Order" time="0.035"/>
-    <testcase name="at least one item is in stock to order" status="pass" classname="02 Happy Path Order\Get Menu - Before Order" time="0.035"/>
+  <testsuite name="Login - Null JSON Body" file="01 Auth\Login - Null JSON Body.bru" errors="0" failures="4" skipped="0" tests="5" timestamp="2026-10-16T06:52:04.821" hostname="DESKTOP-93J4R83" time="0.087">
+    <testcase name="server does not crash (no 5xx)" status="fail" classname="01 Auth\Login - Null JSON Body" time="0.017">
+      <failure type="failure" message="expected 500 to be below 500"/>
+    </testcase>
+    <testcase name="error response is JSON, not an HTML page" status="fail" classname="01 Auth\Login - Null JSON Body" time="0.017">
+      <failure type="failure" message="expected 'text/html; charset=utf-8' to include 'application/json'"/>
+    </testcase>
+    <testcase name="no stack trace or source code is leaked" status="fail" classname="01 Auth\Login - Null JSON Body" time="0.017">
+      <failure type="failure" message="expected '&lt;!doctype html>\n&lt;html lang=en>\n  &lt;h…' not to match /Traceback|Werkzeug|app\.py/"/>
+    </testcase>
+    <testcase name="status is 400 or 401" status="fail" classname="01 Auth\Login - Null JSON Body" time="0.017">
+      <failure type="failure" message="expected 500 to be one of [ 400, 401 ]"/>
+    </testcase>
+    <testcase name="no token is issued" status="pass" classname="01 Auth\Login - Null JSON Body" time="0.017"/>
   </testsuite>
-  <testsuite name="Create Order - Valid" file="02 Happy Path Order\Create Order - Valid.bru" errors="0" failures="1" skipped="0" tests="4" timestamp="2026-10-16T06:45:51.027" hostname="DESKTOP-93J4R83" time="0.154">
-    <testcase name="totalPrice equals menu price x quantity" status="fail" classname="02 Happy Path Order\Create Order - Valid" time="0.038">
+  <testsuite name="Get Menu - Before Order" file="02 Happy Path Order\Get Menu - Before Order.bru" errors="0" failures="0" skipped="0" tests="5" timestamp="2026-10-16T06:52:04.821" hostname="DESKTOP-93J4R83" time="0.161">
+    <testcase name="status is 200" status="pass" classname="02 Happy Path Order\Get Menu - Before Order" time="0.032"/>
+    <testcase name="menu is a non-empty array" status="pass" classname="02 Happy Path Order\Get Menu - Before Order" time="0.032"/>
+    <testcase name="every item has id, name, price and stock with correct types" status="pass" classname="02 Happy Path Order\Get Menu - Before Order" time="0.032"/>
+    <testcase name="no item has negative stock" status="pass" classname="02 Happy Path Order\Get Menu - Before Order" time="0.032"/>
+    <testcase name="at least one item is in stock to order" status="pass" classname="02 Happy Path Order\Get Menu - Before Order" time="0.032"/>
+  </testsuite>
+  <testsuite name="Create Order - Valid" file="02 Happy Path Order\Create Order - Valid.bru" errors="0" failures="1" skipped="0" tests="4" timestamp="2026-10-16T06:52:04.821" hostname="DESKTOP-93J4R83" time="0.198">
+    <testcase name="totalPrice equals menu price x quantity" status="fail" classname="02 Happy Path Order\Create Order - Valid" time="0.049">
       <failure type="failure" message="expected 45 to equal 50"/>
     </testcase>
-    <testcase name="status is 200" status="pass" classname="02 Happy Path Order\Create Order - Valid" time="0.038"/>
-    <testcase name="orderId has the ORD-xxxxxx format" status="pass" classname="02 Happy Path Order\Create Order - Valid" time="0.038"/>
-    <testcase name="status is 'created'" status="pass" classname="02 Happy Path Order\Create Order - Valid" time="0.038"/>
+    <testcase name="status is 200" status="pass" classname="02 Happy Path Order\Create Order - Valid" time="0.049"/>
+    <testcase name="orderId has the ORD-xxxxxx format" status="pass" classname="02 Happy Path Order\Create Order - Valid" time="0.049"/>
+    <testcase name="status is 'created'" status="pass" classname="02 Happy Path Order\Create Order - Valid" time="0.049"/>
   </testsuite>
-  <testsuite name="Get Order - By Id" file="02 Happy Path Order\Get Order - By Id.bru" errors="0" failures="1" skipped="0" tests="5" timestamp="2026-10-16T06:45:51.027" hostname="DESKTOP-93J4R83" time="0.077">
-    <testcase name="stored totalPrice equals menu price x quantity" status="fail" classname="02 Happy Path Order\Get Order - By Id" time="0.015">
+  <testsuite name="Get Order - By Id" file="02 Happy Path Order\Get Order - By Id.bru" errors="0" failures="1" skipped="0" tests="5" timestamp="2026-10-16T06:52:04.821" hostname="DESKTOP-93J4R83" time="0.092">
+    <testcase name="stored totalPrice equals menu price x quantity" status="fail" classname="02 Happy Path Order\Get Order - By Id" time="0.018">
       <failure type="failure" message="expected 45 to equal 50"/>
     </testcase>
-    <testcase name="status is 200" status="pass" classname="02 Happy Path Order\Get Order - By Id" time="0.015"/>
-    <testcase name="returns the same orderId" status="pass" classname="02 Happy Path Order\Get Order - By Id" time="0.015"/>
-    <testcase name="status is 'created'" status="pass" classname="02 Happy Path Order\Get Order - By Id" time="0.015"/>
-    <testcase name="stored totalPrice matches what POST /orders returned" status="pass" classname="02 Happy Path Order\Get Order - By Id" time="0.015"/>
+    <testcase name="status is 200" status="pass" classname="02 Happy Path Order\Get Order - By Id" time="0.018"/>
+    <testcase name="returns the same orderId" status="pass" classname="02 Happy Path Order\Get Order - By Id" time="0.018"/>
+    <testcase name="status is 'created'" status="pass" classname="02 Happy Path Order\Get Order - By Id" time="0.018"/>
+    <testcase name="stored totalPrice matches what POST /orders returned" status="pass" classname="02 Happy Path Order\Get Order - By Id" time="0.018"/>
   </testsuite>
-  <testsuite name="Get Menu - After Order" file="02 Happy Path Order\Get Menu - After Order.bru" errors="0" failures="0" skipped="0" tests="2" timestamp="2026-10-16T06:45:51.027" hostname="DESKTOP-93J4R83" time="0.070">
-    <testcase name="status is 200" status="pass" classname="02 Happy Path Order\Get Menu - After Order" time="0.035"/>
-    <testcase name="stock of the ordered item dropped by exactly 1" status="pass" classname="02 Happy Path Order\Get Menu - After Order" time="0.035"/>
+  <testsuite name="Get Menu - After Order" file="02 Happy Path Order\Get Menu - After Order.bru" errors="0" failures="0" skipped="0" tests="2" timestamp="2026-10-16T06:52:04.821" hostname="DESKTOP-93J4R83" time="0.077">
+    <testcase name="status is 200" status="pass" classname="02 Happy Path Order\Get Menu - After Order" time="0.039"/>
+    <testcase name="stock of the ordered item dropped by exactly 1" status="pass" classname="02 Happy Path Order\Get Menu - After Order" time="0.039"/>
   </testsuite>
-  <testsuite name="Create Order - No Token" file="03 Order Auth Checks\Create Order - No Token.bru" errors="0" failures="0" skipped="0" tests="2" timestamp="2026-10-16T06:45:51.027" hostname="DESKTOP-93J4R83" time="0.071">
-    <testcase name="status is 401" status="pass" classname="03 Order Auth Checks\Create Order - No Token" time="0.035"/>
-    <testcase name="no order is created" status="pass" classname="03 Order Auth Checks\Create Order - No Token" time="0.035"/>
+  <testsuite name="Create Order - No Token" file="03 Order Auth Checks\Create Order - No Token.bru" errors="0" failures="0" skipped="0" tests="2" timestamp="2026-10-16T06:52:04.821" hostname="DESKTOP-93J4R83" time="0.076">
+    <testcase name="status is 401" status="pass" classname="03 Order Auth Checks\Create Order - No Token" time="0.038"/>
+    <testcase name="no order is created" status="pass" classname="03 Order Auth Checks\Create Order - No Token" time="0.038"/>
   </testsuite>
-  <testsuite name="Create Order - Invalid Token" file="03 Order Auth Checks\Create Order - Invalid Token.bru" errors="0" failures="0" skipped="0" tests="2" timestamp="2026-10-16T06:45:51.027" hostname="DESKTOP-93J4R83" time="0.076">
-    <testcase name="status is 401" status="pass" classname="03 Order Auth Checks\Create Order - Invalid Token" time="0.038"/>
-    <testcase name="no order is created" status="pass" classname="03 Order Auth Checks\Create Order - Invalid Token" time="0.038"/>
+  <testsuite name="Create Order - Invalid Token" file="03 Order Auth Checks\Create Order - Invalid Token.bru" errors="0" failures="0" skipped="0" tests="2" timestamp="2026-10-16T06:52:04.821" hostname="DESKTOP-93J4R83" time="0.073">
+    <testcase name="status is 401" status="pass" classname="03 Order Auth Checks\Create Order - Invalid Token" time="0.037"/>
+    <testcase name="no order is created" status="pass" classname="03 Order Auth Checks\Create Order - Invalid Token" time="0.037"/>
   </testsuite>
-  <testsuite name="Create Order - Item Not Found" file="03 Order Auth Checks\Create Order - Item Not Found.bru" errors="0" failures="0" skipped="0" tests="3" timestamp="2026-10-16T06:45:51.027" hostname="DESKTOP-93J4R83" time="0.077">
-    <testcase name="status is 404" status="pass" classname="03 Order Auth Checks\Create Order - Item Not Found" time="0.026"/>
-    <testcase name="error says item not found" status="pass" classname="03 Order Auth Checks\Create Order - Item Not Found" time="0.026"/>
-    <testcase name="no order is created" status="pass" classname="03 Order Auth Checks\Create Order - Item Not Found" time="0.026"/>
+  <testsuite name="Create Order - Item Not Found" file="03 Order Auth Checks\Create Order - Item Not Found.bru" errors="0" failures="0" skipped="0" tests="3" timestamp="2026-10-16T06:52:04.822" hostname="DESKTOP-93J4R83" time="0.086">
+    <testcase name="status is 404" status="pass" classname="03 Order Auth Checks\Create Order - Item Not Found" time="0.029"/>
+    <testcase name="error says item not found" status="pass" classname="03 Order Auth Checks\Create Order - Item Not Found" time="0.029"/>
+    <testcase name="no order is created" status="pass" classname="03 Order Auth Checks\Create Order - Item Not Found" time="0.029"/>
   </testsuite>
-  <testsuite name="Get Menu - Pick Item A" file="04 Stock and Quantity Rules\Get Menu - Pick Item A.bru" errors="0" failures="0" skipped="0" tests="2" timestamp="2026-10-16T06:45:51.027" hostname="DESKTOP-93J4R83" time="0.140">
-    <testcase name="status is 200" status="pass" classname="04 Stock and Quantity Rules\Get Menu - Pick Item A" time="0.070"/>
-    <testcase name="an item in stock exists" status="pass" classname="04 Stock and Quantity Rules\Get Menu - Pick Item A" time="0.070"/>
+  <testsuite name="Create Order - Token Without Bearer Prefix" file="03 Order Auth Checks\Create Order - Token Without Bearer Prefix.bru" errors="0" failures="1" skipped="0" tests="1" timestamp="2026-10-16T06:52:04.822" hostname="DESKTOP-93J4R83" time="0.078">
+    <testcase name="status is 401 (scheme must be 'Bearer')" status="fail" classname="03 Order Auth Checks\Create Order - Token Without Bearer Prefix" time="0.078">
+      <failure type="failure" message="expected 404 to equal 401"/>
+    </testcase>
   </testsuite>
-  <testsuite name="Create Order - Quantity Exceeds Stock" file="04 Stock and Quantity Rules\Create Order - Quantity Exceeds Stock.bru" errors="0" failures="3" skipped="0" tests="3" timestamp="2026-10-16T06:45:51.027" hostname="DESKTOP-93J4R83" time="0.072">
-    <testcase name="status is 400 (request rejected)" status="fail" classname="04 Stock and Quantity Rules\Create Order - Quantity Exceeds Stock" time="0.024">
+  <testsuite name="Create Order - Null JSON Body" file="03 Order Auth Checks\Create Order - Null JSON Body.bru" errors="0" failures="4" skipped="0" tests="5" timestamp="2026-10-16T06:52:04.822" hostname="DESKTOP-93J4R83" time="0.082">
+    <testcase name="server does not crash (no 5xx)" status="fail" classname="03 Order Auth Checks\Create Order - Null JSON Body" time="0.016">
+      <failure type="failure" message="expected 500 to be below 500"/>
+    </testcase>
+    <testcase name="error response is JSON, not an HTML page" status="fail" classname="03 Order Auth Checks\Create Order - Null JSON Body" time="0.016">
+      <failure type="failure" message="expected 'text/html; charset=utf-8' to include 'application/json'"/>
+    </testcase>
+    <testcase name="no stack trace or source code is leaked" status="fail" classname="03 Order Auth Checks\Create Order - Null JSON Body" time="0.016">
+      <failure type="failure" message="expected '&lt;!doctype html>\n&lt;html lang=en>\n  &lt;h…' not to match /Traceback|Werkzeug|app\.py/"/>
+    </testcase>
+    <testcase name="status is 400 (request rejected)" status="fail" classname="03 Order Auth Checks\Create Order - Null JSON Body" time="0.016">
+      <failure type="failure" message="expected 500 to equal 400"/>
+    </testcase>
+    <testcase name="no order is created" status="pass" classname="03 Order Auth Checks\Create Order - Null JSON Body" time="0.016"/>
+  </testsuite>
+  <testsuite name="Get Menu - Pick Item A" file="04 Stock and Quantity Rules\Get Menu - Pick Item A.bru" errors="0" failures="0" skipped="0" tests="2" timestamp="2026-10-16T06:52:04.822" hostname="DESKTOP-93J4R83" time="0.149">
+    <testcase name="status is 200" status="pass" classname="04 Stock and Quantity Rules\Get Menu - Pick Item A" time="0.074"/>
+    <testcase name="an item in stock exists" status="pass" classname="04 Stock and Quantity Rules\Get Menu - Pick Item A" time="0.074"/>
+  </testsuite>
+  <testsuite name="Create Order - Quantity Exceeds Stock" file="04 Stock and Quantity Rules\Create Order - Quantity Exceeds Stock.bru" errors="0" failures="3" skipped="0" tests="3" timestamp="2026-10-16T06:52:04.822" hostname="DESKTOP-93J4R83" time="0.076">
+    <testcase name="status is 400 (request rejected)" status="fail" classname="04 Stock and Quantity Rules\Create Order - Quantity Exceeds Stock" time="0.025">
       <failure type="failure" message="expected 200 to equal 400"/>
     </testcase>
-    <testcase name="no order is created" status="fail" classname="04 Stock and Quantity Rules\Create Order - Quantity Exceeds Stock" time="0.024">
-      <failure type="failure" message="expected { orderId: 'ORD-9d7439', …(2) } to not have property 'orderId'"/>
+    <testcase name="no order is created" status="fail" classname="04 Stock and Quantity Rules\Create Order - Quantity Exceeds Stock" time="0.025">
+      <failure type="failure" message="expected { orderId: 'ORD-722e56', …(2) } to not have property 'orderId'"/>
     </testcase>
-    <testcase name="an error message is returned" status="fail" classname="04 Stock and Quantity Rules\Create Order - Quantity Exceeds Stock" time="0.024">
+    <testcase name="an error message is returned" status="fail" classname="04 Stock and Quantity Rules\Create Order - Quantity Exceeds Stock" time="0.025">
       <failure type="failure" message="expected undefined to be a string"/>
     </testcase>
   </testsuite>
-  <testsuite name="Get Menu - Stock Never Negative" file="04 Stock and Quantity Rules\Get Menu - Stock Never Negative.bru" errors="0" failures="2" skipped="0" tests="4" timestamp="2026-10-16T06:45:51.027" hostname="DESKTOP-93J4R83" time="0.161">
-    <testcase name="no item has negative stock" status="fail" classname="04 Stock and Quantity Rules\Get Menu - Stock Never Negative" time="0.040">
+  <testsuite name="Get Menu - Stock Never Negative" file="04 Stock and Quantity Rules\Get Menu - Stock Never Negative.bru" errors="0" failures="2" skipped="0" tests="4" timestamp="2026-10-16T06:52:04.822" hostname="DESKTOP-93J4R83" time="0.153">
+    <testcase name="no item has negative stock" status="fail" classname="04 Stock and Quantity Rules\Get Menu - Stock Never Negative" time="0.038">
       <failure type="failure" message="Tom Yum Noodles stock: expected -1 to be at least +0"/>
     </testcase>
-    <testcase name="rejected over-order did not change item A stock" status="fail" classname="04 Stock and Quantity Rules\Get Menu - Stock Never Negative" time="0.040">
+    <testcase name="rejected over-order did not change item A stock" status="fail" classname="04 Stock and Quantity Rules\Get Menu - Stock Never Negative" time="0.038">
       <failure type="failure" message="expected -1 to equal 1"/>
     </testcase>
-    <testcase name="status is 200" status="pass" classname="04 Stock and Quantity Rules\Get Menu - Stock Never Negative" time="0.040"/>
-    <testcase name="an item in stock exists for the next tests" status="pass" classname="04 Stock and Quantity Rules\Get Menu - Stock Never Negative" time="0.040"/>
+    <testcase name="status is 200" status="pass" classname="04 Stock and Quantity Rules\Get Menu - Stock Never Negative" time="0.038"/>
+    <testcase name="an item in stock exists for the next tests" status="pass" classname="04 Stock and Quantity Rules\Get Menu - Stock Never Negative" time="0.038"/>
   </testsuite>
-  <testsuite name="Create Order - Zero Quantity" file="04 Stock and Quantity Rules\Create Order - Zero Quantity.bru" errors="0" failures="4" skipped="0" tests="4" timestamp="2026-10-16T06:45:51.027" hostname="DESKTOP-93J4R83" time="0.077">
-    <testcase name="status is 400 (request rejected)" status="fail" classname="04 Stock and Quantity Rules\Create Order - Zero Quantity" time="0.019">
+  <testsuite name="Create Order - Zero Quantity" file="04 Stock and Quantity Rules\Create Order - Zero Quantity.bru" errors="0" failures="4" skipped="0" tests="4" timestamp="2026-10-16T06:52:04.822" hostname="DESKTOP-93J4R83" time="0.110">
+    <testcase name="status is 400 (request rejected)" status="fail" classname="04 Stock and Quantity Rules\Create Order - Zero Quantity" time="0.028">
       <failure type="failure" message="expected 200 to equal 400"/>
     </testcase>
-    <testcase name="no order is created" status="fail" classname="04 Stock and Quantity Rules\Create Order - Zero Quantity" time="0.019">
-      <failure type="failure" message="expected { orderId: 'ORD-73b3dc', …(2) } to not have property 'orderId'"/>
+    <testcase name="no order is created" status="fail" classname="04 Stock and Quantity Rules\Create Order - Zero Quantity" time="0.028">
+      <failure type="failure" message="expected { orderId: 'ORD-b26bbd', …(2) } to not have property 'orderId'"/>
     </testcase>
-    <testcase name="an error message is returned" status="fail" classname="04 Stock and Quantity Rules\Create Order - Zero Quantity" time="0.019">
+    <testcase name="an error message is returned" status="fail" classname="04 Stock and Quantity Rules\Create Order - Zero Quantity" time="0.028">
       <failure type="failure" message="expected undefined to be a string"/>
     </testcase>
-    <testcase name="totalPrice is never negative or zero" status="fail" classname="04 Stock and Quantity Rules\Create Order - Zero Quantity" time="0.019">
+    <testcase name="totalPrice is never negative or zero" status="fail" classname="04 Stock and Quantity Rules\Create Order - Zero Quantity" time="0.028">
       <failure type="failure" message="expected -5 to be above +0"/>
     </testcase>
   </testsuite>
-  <testsuite name="Create Order - Negative Quantity" file="04 Stock and Quantity Rules\Create Order - Negative Quantity.bru" errors="0" failures="4" skipped="0" tests="4" timestamp="2026-10-16T06:45:51.027" hostname="DESKTOP-93J4R83" time="0.078">
-    <testcase name="status is 400 (request rejected)" status="fail" classname="04 Stock and Quantity Rules\Create Order - Negative Quantity" time="0.019">
+  <testsuite name="Create Order - Negative Quantity" file="04 Stock and Quantity Rules\Create Order - Negative Quantity.bru" errors="0" failures="4" skipped="0" tests="4" timestamp="2026-10-16T06:52:04.822" hostname="DESKTOP-93J4R83" time="0.106">
+    <testcase name="status is 400 (request rejected)" status="fail" classname="04 Stock and Quantity Rules\Create Order - Negative Quantity" time="0.027">
       <failure type="failure" message="expected 200 to equal 400"/>
     </testcase>
-    <testcase name="no order is created" status="fail" classname="04 Stock and Quantity Rules\Create Order - Negative Quantity" time="0.019">
-      <failure type="failure" message="expected { orderId: 'ORD-ee33bd', …(2) } to not have property 'orderId'"/>
+    <testcase name="no order is created" status="fail" classname="04 Stock and Quantity Rules\Create Order - Negative Quantity" time="0.027">
+      <failure type="failure" message="expected { orderId: 'ORD-6ee1d0', …(2) } to not have property 'orderId'"/>
     </testcase>
-    <testcase name="an error message is returned" status="fail" classname="04 Stock and Quantity Rules\Create Order - Negative Quantity" time="0.019">
+    <testcase name="an error message is returned" status="fail" classname="04 Stock and Quantity Rules\Create Order - Negative Quantity" time="0.027">
       <failure type="failure" message="expected undefined to be a string"/>
     </testcase>
-    <testcase name="totalPrice is never negative" status="fail" classname="04 Stock and Quantity Rules\Create Order - Negative Quantity" time="0.019">
+    <testcase name="totalPrice is never negative" status="fail" classname="04 Stock and Quantity Rules\Create Order - Negative Quantity" time="0.027">
       <failure type="failure" message="expected -50 to be above +0"/>
     </testcase>
   </testsuite>
-  <testsuite name="Create Order - Missing Quantity" file="04 Stock and Quantity Rules\Create Order - Missing Quantity.bru" errors="0" failures="3" skipped="0" tests="4" timestamp="2026-10-16T06:45:51.027" hostname="DESKTOP-93J4R83" time="0.094">
-    <testcase name="server does not crash (no 5xx)" status="fail" classname="04 Stock and Quantity Rules\Create Order - Missing Quantity" time="0.024">
+  <testsuite name="Create Order - Missing Quantity" file="04 Stock and Quantity Rules\Create Order - Missing Quantity.bru" errors="0" failures="5" skipped="0" tests="6" timestamp="2026-10-16T06:52:04.822" hostname="DESKTOP-93J4R83" time="0.083">
+    <testcase name="server does not crash (no 5xx)" status="fail" classname="04 Stock and Quantity Rules\Create Order - Missing Quantity" time="0.014">
       <failure type="failure" message="expected 500 to be below 500"/>
     </testcase>
-    <testcase name="status is 400 (request rejected)" status="fail" classname="04 Stock and Quantity Rules\Create Order - Missing Quantity" time="0.024">
+    <testcase name="status is 400 (request rejected)" status="fail" classname="04 Stock and Quantity Rules\Create Order - Missing Quantity" time="0.014">
       <failure type="failure" message="expected 500 to equal 400"/>
     </testcase>
-    <testcase name="an error message is returned" status="fail" classname="04 Stock and Quantity Rules\Create Order - Missing Quantity" time="0.024">
+    <testcase name="an error message is returned" status="fail" classname="04 Stock and Quantity Rules\Create Order - Missing Quantity" time="0.014">
       <failure type="failure" message="expected undefined to be a string"/>
     </testcase>
-    <testcase name="no order is created" status="pass" classname="04 Stock and Quantity Rules\Create Order - Missing Quantity" time="0.024"/>
+    <testcase name="error response is JSON, not an HTML page" status="fail" classname="04 Stock and Quantity Rules\Create Order - Missing Quantity" time="0.014">
+      <failure type="failure" message="expected 'text/html; charset=utf-8' to include 'application/json'"/>
+    </testcase>
+    <testcase name="no stack trace or source code is leaked" status="fail" classname="04 Stock and Quantity Rules\Create Order - Missing Quantity" time="0.014">
+      <failure type="failure" message="expected '&lt;!doctype html>\n&lt;html lang=en>\n  &lt;h…' not to match /Traceback|Werkzeug|app\.py/"/>
+    </testcase>
+    <testcase name="no order is created" status="pass" classname="04 Stock and Quantity Rules\Create Order - Missing Quantity" time="0.014"/>
   </testsuite>
-  <testsuite name="Create Order - Quantity Is Text" file="04 Stock and Quantity Rules\Create Order - Quantity Is Text.bru" errors="0" failures="3" skipped="0" tests="4" timestamp="2026-10-16T06:45:51.027" hostname="DESKTOP-93J4R83" time="0.075">
-    <testcase name="server does not crash (no 5xx)" status="fail" classname="04 Stock and Quantity Rules\Create Order - Quantity Is Text" time="0.019">
+  <testsuite name="Create Order - Quantity Is Text" file="04 Stock and Quantity Rules\Create Order - Quantity Is Text.bru" errors="0" failures="5" skipped="0" tests="6" timestamp="2026-10-16T06:52:04.822" hostname="DESKTOP-93J4R83" time="0.083">
+    <testcase name="server does not crash (no 5xx)" status="fail" classname="04 Stock and Quantity Rules\Create Order - Quantity Is Text" time="0.014">
       <failure type="failure" message="expected 500 to be below 500"/>
     </testcase>
-    <testcase name="status is 400 (request rejected)" status="fail" classname="04 Stock and Quantity Rules\Create Order - Quantity Is Text" time="0.019">
+    <testcase name="status is 400 (request rejected)" status="fail" classname="04 Stock and Quantity Rules\Create Order - Quantity Is Text" time="0.014">
       <failure type="failure" message="expected 500 to equal 400"/>
     </testcase>
-    <testcase name="an error message is returned" status="fail" classname="04 Stock and Quantity Rules\Create Order - Quantity Is Text" time="0.019">
+    <testcase name="an error message is returned" status="fail" classname="04 Stock and Quantity Rules\Create Order - Quantity Is Text" time="0.014">
       <failure type="failure" message="expected undefined to be a string"/>
     </testcase>
-    <testcase name="no order is created" status="pass" classname="04 Stock and Quantity Rules\Create Order - Quantity Is Text" time="0.019"/>
-  </testsuite>
-  <testsuite name="Get Menu - Read Item B" file="04 Stock and Quantity Rules\Get Menu - Read Item B.bru" errors="0" failures="1" skipped="0" tests="2" timestamp="2026-10-16T06:45:51.028" hostname="DESKTOP-93J4R83" time="0.141">
-    <testcase name="invalid quantity orders did not change item B stock" status="fail" classname="04 Stock and Quantity Rules\Get Menu - Read Item B" time="0.071">
-      <failure type="failure" message="expected 2 to equal 1"/>
+    <testcase name="error response is JSON, not an HTML page" status="fail" classname="04 Stock and Quantity Rules\Create Order - Quantity Is Text" time="0.014">
+      <failure type="failure" message="expected 'text/html; charset=utf-8' to include 'application/json'"/>
     </testcase>
-    <testcase name="status is 200" status="pass" classname="04 Stock and Quantity Rules\Get Menu - Read Item B" time="0.071"/>
-  </testsuite>
-  <testsuite name="Create Order - Buy All Remaining Stock" file="04 Stock and Quantity Rules\Create Order - Buy All Remaining Stock.bru" errors="0" failures="1" skipped="0" tests="3" timestamp="2026-10-16T06:45:51.028" hostname="DESKTOP-93J4R83" time="0.069">
-    <testcase name="totalPrice equals menu price x quantity" status="fail" classname="04 Stock and Quantity Rules\Create Order - Buy All Remaining Stock" time="0.023">
-      <failure type="failure" message="expected 85 to equal 90"/>
+    <testcase name="no stack trace or source code is leaked" status="fail" classname="04 Stock and Quantity Rules\Create Order - Quantity Is Text" time="0.014">
+      <failure type="failure" message="expected '&lt;!doctype html>\n&lt;html lang=en>\n  &lt;h…' not to match /Traceback|Werkzeug|app\.py/"/>
     </testcase>
-    <testcase name="status is 200" status="pass" classname="04 Stock and Quantity Rules\Create Order - Buy All Remaining Stock" time="0.023"/>
-    <testcase name="status is created" status="pass" classname="04 Stock and Quantity Rules\Create Order - Buy All Remaining Stock" time="0.023"/>
+    <testcase name="no order is created" status="pass" classname="04 Stock and Quantity Rules\Create Order - Quantity Is Text" time="0.014"/>
   </testsuite>
-  <testsuite name="Create Order - Sold Out Item" file="04 Stock and Quantity Rules\Create Order - Sold Out Item.bru" errors="0" failures="0" skipped="0" tests="4" timestamp="2026-10-16T06:45:51.028" hostname="DESKTOP-93J4R83" time="0.086">
-    <testcase name="status is 400 (request rejected)" status="pass" classname="04 Stock and Quantity Rules\Create Order - Sold Out Item" time="0.021"/>
-    <testcase name="no order is created" status="pass" classname="04 Stock and Quantity Rules\Create Order - Sold Out Item" time="0.021"/>
-    <testcase name="an error message is returned" status="pass" classname="04 Stock and Quantity Rules\Create Order - Sold Out Item" time="0.021"/>
-    <testcase name="error says out of stock" status="pass" classname="04 Stock and Quantity Rules\Create Order - Sold Out Item" time="0.021"/>
+  <testsuite name="Create Order - Fractional Quantity" file="04 Stock and Quantity Rules\Create Order - Fractional Quantity.bru" errors="0" failures="3" skipped="0" tests="3" timestamp="2026-10-16T06:52:04.822" hostname="DESKTOP-93J4R83" time="0.079">
+    <testcase name="status is 400 (half a bowl cannot be ordered)" status="fail" classname="04 Stock and Quantity Rules\Create Order - Fractional Quantity" time="0.026">
+      <failure type="failure" message="expected 200 to equal 400"/>
+    </testcase>
+    <testcase name="no order is created" status="fail" classname="04 Stock and Quantity Rules\Create Order - Fractional Quantity" time="0.026">
+      <failure type="failure" message="expected { orderId: 'ORD-f3f87e', …(2) } to not have property 'orderId'"/>
+    </testcase>
+    <testcase name="an error message is returned" status="fail" classname="04 Stock and Quantity Rules\Create Order - Fractional Quantity" time="0.026">
+      <failure type="failure" message="expected undefined to be a string"/>
+    </testcase>
   </testsuite>
-  <testsuite name="Get Menu - Sold Out Item Shows Zero" file="04 Stock and Quantity Rules\Get Menu - Sold Out Item Shows Zero.bru" errors="0" failures="0" skipped="0" tests="2" timestamp="2026-10-16T06:45:51.028" hostname="DESKTOP-93J4R83" time="0.155">
-    <testcase name="status is 200" status="pass" classname="04 Stock and Quantity Rules\Get Menu - Sold Out Item Shows Zero" time="0.078"/>
-    <testcase name="sold out item has stock exactly 0" status="pass" classname="04 Stock and Quantity Rules\Get Menu - Sold Out Item Shows Zero" time="0.078"/>
+  <testsuite name="Get Menu - Read Item B" file="04 Stock and Quantity Rules\Get Menu - Read Item B.bru" errors="0" failures="2" skipped="0" tests="3" timestamp="2026-10-16T06:52:04.822" hostname="DESKTOP-93J4R83" time="0.155">
+    <testcase name="invalid quantity orders did not change item B stock" status="fail" classname="04 Stock and Quantity Rules\Get Menu - Read Item B" time="0.052">
+      <failure type="failure" message="expected 1.5 to equal 1"/>
+    </testcase>
+    <testcase name="every stock value is a whole number" status="fail" classname="04 Stock and Quantity Rules\Get Menu - Read Item B" time="0.052">
+      <failure type="failure" message="Fried Rice stock = 1.5: expected false to be true"/>
+    </testcase>
+    <testcase name="status is 200" status="pass" classname="04 Stock and Quantity Rules\Get Menu - Read Item B" time="0.052"/>
   </testsuite>
-  <testsuite name="Get Order - Non-Existent Id" file="05 Get Order Edge Cases\Get Order - Non-Existent Id.bru" errors="0" failures="1" skipped="0" tests="3" timestamp="2026-10-16T06:45:51.028" hostname="DESKTOP-93J4R83" time="0.077">
-    <testcase name="status is 404" status="fail" classname="05 Get Order Edge Cases\Get Order - Non-Existent Id" time="0.026">
+  <testsuite name="Create Order - Buy All Remaining Stock" file="04 Stock and Quantity Rules\Create Order - Buy All Remaining Stock.bru" errors="0" failures="1" skipped="0" tests="3" timestamp="2026-10-16T06:52:04.822" hostname="DESKTOP-93J4R83" time="0.077">
+    <testcase name="totalPrice equals menu price x quantity" status="fail" classname="04 Stock and Quantity Rules\Create Order - Buy All Remaining Stock" time="0.026">
+      <failure type="failure" message="expected 62.5 to equal 67.5"/>
+    </testcase>
+    <testcase name="status is 200" status="pass" classname="04 Stock and Quantity Rules\Create Order - Buy All Remaining Stock" time="0.026"/>
+    <testcase name="status is created" status="pass" classname="04 Stock and Quantity Rules\Create Order - Buy All Remaining Stock" time="0.026"/>
+  </testsuite>
+  <testsuite name="Create Order - Sold Out Item" file="04 Stock and Quantity Rules\Create Order - Sold Out Item.bru" errors="0" failures="0" skipped="0" tests="4" timestamp="2026-10-16T06:52:04.822" hostname="DESKTOP-93J4R83" time="0.074">
+    <testcase name="status is 400 (request rejected)" status="pass" classname="04 Stock and Quantity Rules\Create Order - Sold Out Item" time="0.019"/>
+    <testcase name="no order is created" status="pass" classname="04 Stock and Quantity Rules\Create Order - Sold Out Item" time="0.019"/>
+    <testcase name="an error message is returned" status="pass" classname="04 Stock and Quantity Rules\Create Order - Sold Out Item" time="0.019"/>
+    <testcase name="error says out of stock" status="pass" classname="04 Stock and Quantity Rules\Create Order - Sold Out Item" time="0.019"/>
+  </testsuite>
+  <testsuite name="Get Menu - Sold Out Item Shows Zero" file="04 Stock and Quantity Rules\Get Menu - Sold Out Item Shows Zero.bru" errors="0" failures="0" skipped="0" tests="3" timestamp="2026-10-16T06:52:04.822" hostname="DESKTOP-93J4R83" time="0.147">
+    <testcase name="status is 200" status="pass" classname="04 Stock and Quantity Rules\Get Menu - Sold Out Item Shows Zero" time="0.049"/>
+    <testcase name="sold out item has stock exactly 0" status="pass" classname="04 Stock and Quantity Rules\Get Menu - Sold Out Item Shows Zero" time="0.049"/>
+    <testcase name="every stock value is a whole number" status="pass" classname="04 Stock and Quantity Rules\Get Menu - Sold Out Item Shows Zero" time="0.049"/>
+  </testsuite>
+  <testsuite name="Get Order - Non-Existent Id" file="05 Get Order Edge Cases\Get Order - Non-Existent Id.bru" errors="0" failures="1" skipped="0" tests="3" timestamp="2026-10-16T06:52:04.822" hostname="DESKTOP-93J4R83" time="0.085">
+    <testcase name="status is 404" status="fail" classname="05 Get Order Edge Cases\Get Order - Non-Existent Id" time="0.028">
       <failure type="failure" message="expected 200 to equal 404"/>
     </testcase>
-    <testcase name="error says order not found" status="pass" classname="05 Get Order Edge Cases\Get Order - Non-Existent Id" time="0.026"/>
-    <testcase name="no order data is returned" status="pass" classname="05 Get Order Edge Cases\Get Order - Non-Existent Id" time="0.026"/>
+    <testcase name="error says order not found" status="pass" classname="05 Get Order Edge Cases\Get Order - Non-Existent Id" time="0.028"/>
+    <testcase name="no order data is returned" status="pass" classname="05 Get Order Edge Cases\Get Order - Non-Existent Id" time="0.028"/>
   </testsuite>
-  <testsuite name="Get Order - Existing Id Still Stored" file="05 Get Order Edge Cases\Get Order - Existing Id Still Stored.bru" errors="0" failures="0" skipped="0" tests="2" timestamp="2026-10-16T06:45:51.028" hostname="DESKTOP-93J4R83" time="0.077">
+  <testsuite name="Get Order - Existing Id Still Stored" file="05 Get Order Edge Cases\Get Order - Existing Id Still Stored.bru" errors="0" failures="0" skipped="0" tests="2" timestamp="2026-10-16T06:52:04.822" hostname="DESKTOP-93J4R83" time="0.078">
     <testcase name="status is 200" status="pass" classname="05 Get Order Edge Cases\Get Order - Existing Id Still Stored" time="0.039"/>
     <testcase name="the order from the happy path is still stored" status="pass" classname="05 Get Order Edge Cases\Get Order - Existing Id Still Stored" time="0.039"/>
+  </testsuite>
+  <testsuite name="Get Order - Without Token" file="05 Get Order Edge Cases\Get Order - Without Token.bru" errors="0" failures="2" skipped="0" tests="2" timestamp="2026-10-16T06:52:04.822" hostname="DESKTOP-93J4R83" time="0.079">
+    <testcase name="status is 401 without a token" status="fail" classname="05 Get Order Edge Cases\Get Order - Without Token" time="0.039">
+      <failure type="failure" message="expected 200 to equal 401"/>
+    </testcase>
+    <testcase name="order details are not exposed" status="fail" classname="05 Get Order Edge Cases\Get Order - Without Token" time="0.039">
+      <failure type="failure" message="expected { orderId: 'ORD-59da62', …(2) } to not have property 'totalPrice'"/>
+    </testcase>
+  </testsuite>
+  <testsuite name="Login - Token For Expiry Test" file="06 Token Expiry (opt-in, slow)\Login - Token For Expiry Test.bru" errors="0" failures="0" skipped="1" tests="0" timestamp="2026-10-16T06:52:04.822" hostname="DESKTOP-93J4R83" time="0.076">
+    <skipped message="Request Skipped"/>
+  </testsuite>
+  <testsuite name="Create Order - Expired Token" file="06 Token Expiry (opt-in, slow)\Create Order - Expired Token.bru" errors="0" failures="0" skipped="1" tests="0" timestamp="2026-10-16T06:52:04.822" hostname="DESKTOP-93J4R83" time="0.077">
+    <skipped message="Request Skipped"/>
   </testsuite>
 </testsuites>

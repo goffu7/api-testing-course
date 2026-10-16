@@ -13,6 +13,17 @@ Tests
 Tests
    ✓ status is 401
    ✓ no token is issued
+01 Auth\Login - Null JSON Body (500 INTERNAL SERVER ERROR) - 10 ms
+Tests
+   ✕ server does not crash (no 5xx)
+      expected 500 to be below 500
+   ✕ error response is JSON, not an HTML page
+      expected 'text/html; charset=utf-8' to include 'application/json'
+   ✕ no stack trace or source code is leaked
+      expected '<!doctype html>\n<html lang=en>\n  <h…' not to match /Traceback|Werkzeug|app\.py/
+   ✕ status is 400 or 401
+      expected 500 to be one of [ 400, 401 ]
+   ✓ no token is issued
 02 Happy Path Order\Get Menu - Before Order (200 OK) - 3 ms
 Tests
    ✓ status is 200
@@ -27,7 +38,7 @@ Tests
    ✓ status is 200
    ✓ orderId has the ORD-xxxxxx format
    ✓ status is 'created'
-02 Happy Path Order\Get Order - By Id (200 OK) - 2 ms
+02 Happy Path Order\Get Order - By Id (200 OK) - 3 ms
 Tests
    ✕ stored totalPrice equals menu price x quantity
       expected 45 to equal 50
@@ -43,7 +54,7 @@ Tests
 Tests
    ✓ status is 401
    ✓ no order is created
-03 Order Auth Checks\Create Order - Invalid Token (401 UNAUTHORIZED) - 4 ms
+03 Order Auth Checks\Create Order - Invalid Token (401 UNAUTHORIZED) - 3 ms
 Tests
    ✓ status is 401
    ✓ no order is created
@@ -52,19 +63,34 @@ Tests
    ✓ status is 404
    ✓ error says item not found
    ✓ no order is created
+03 Order Auth Checks\Create Order - Token Without Bearer Prefix (404 NOT FOUND) - 3 ms
+Tests
+   ✕ status is 401 (scheme must be 'Bearer')
+      expected 404 to equal 401
+03 Order Auth Checks\Create Order - Null JSON Body (500 INTERNAL SERVER ERROR) - 8 ms
+Tests
+   ✕ server does not crash (no 5xx)
+      expected 500 to be below 500
+   ✕ error response is JSON, not an HTML page
+      expected 'text/html; charset=utf-8' to include 'application/json'
+   ✕ no stack trace or source code is leaked
+      expected '<!doctype html>\n<html lang=en>\n  <h…' not to match /Traceback|Werkzeug|app\.py/
+   ✕ status is 400 (request rejected)
+      expected 500 to equal 400
+   ✓ no order is created
 04 Stock and Quantity Rules\Get Menu - Pick Item A (200 OK) - 2 ms
 Tests
    ✓ status is 200
    ✓ an item in stock exists
-04 Stock and Quantity Rules\Create Order - Quantity Exceeds Stock (200 OK) - 3 ms
+04 Stock and Quantity Rules\Create Order - Quantity Exceeds Stock (200 OK) - 2 ms
 Tests
    ✕ status is 400 (request rejected)
       expected 200 to equal 400
    ✕ no order is created
-      expected { orderId: 'ORD-9d7439', …(2) } to not have property 'orderId'
+      expected { orderId: 'ORD-722e56', …(2) } to not have property 'orderId'
    ✕ an error message is returned
       expected undefined to be a string
-04 Stock and Quantity Rules\Get Menu - Stock Never Negative (200 OK) - 3 ms
+04 Stock and Quantity Rules\Get Menu - Stock Never Negative (200 OK) - 2 ms
 Tests
    ✕ no item has negative stock
       Tom Yum Noodles stock: expected -1 to be at least +0
@@ -77,7 +103,7 @@ Tests
    ✕ status is 400 (request rejected)
       expected 200 to equal 400
    ✕ no order is created
-      expected { orderId: 'ORD-73b3dc', …(2) } to not have property 'orderId'
+      expected { orderId: 'ORD-b26bbd', …(2) } to not have property 'orderId'
    ✕ an error message is returned
       expected undefined to be a string
    ✕ totalPrice is never negative or zero
@@ -87,12 +113,12 @@ Tests
    ✕ status is 400 (request rejected)
       expected 200 to equal 400
    ✕ no order is created
-      expected { orderId: 'ORD-ee33bd', …(2) } to not have property 'orderId'
+      expected { orderId: 'ORD-6ee1d0', …(2) } to not have property 'orderId'
    ✕ an error message is returned
       expected undefined to be a string
    ✕ totalPrice is never negative
       expected -50 to be above +0
-04 Stock and Quantity Rules\Create Order - Missing Quantity (500 INTERNAL SERVER ERROR) - 10 ms
+04 Stock and Quantity Rules\Create Order - Missing Quantity (500 INTERNAL SERVER ERROR) - 9 ms
 Tests
    ✕ server does not crash (no 5xx)
       expected 500 to be below 500
@@ -100,8 +126,12 @@ Tests
       expected 500 to equal 400
    ✕ an error message is returned
       expected undefined to be a string
+   ✕ error response is JSON, not an HTML page
+      expected 'text/html; charset=utf-8' to include 'application/json'
+   ✕ no stack trace or source code is leaked
+      expected '<!doctype html>\n<html lang=en>\n  <h…' not to match /Traceback|Werkzeug|app\.py/
    ✓ no order is created
-04 Stock and Quantity Rules\Create Order - Quantity Is Text (500 INTERNAL SERVER ERROR) - 8 ms
+04 Stock and Quantity Rules\Create Order - Quantity Is Text (500 INTERNAL SERVER ERROR) - 9 ms
 Tests
    ✕ server does not crash (no 5xx)
       expected 500 to be below 500
@@ -109,19 +139,33 @@ Tests
       expected 500 to equal 400
    ✕ an error message is returned
       expected undefined to be a string
+   ✕ error response is JSON, not an HTML page
+      expected 'text/html; charset=utf-8' to include 'application/json'
+   ✕ no stack trace or source code is leaked
+      expected '<!doctype html>\n<html lang=en>\n  <h…' not to match /Traceback|Werkzeug|app\.py/
    ✓ no order is created
+04 Stock and Quantity Rules\Create Order - Fractional Quantity (200 OK) - 3 ms
+Tests
+   ✕ status is 400 (half a bowl cannot be ordered)
+      expected 200 to equal 400
+   ✕ no order is created
+      expected { orderId: 'ORD-f3f87e', …(2) } to not have property 'orderId'
+   ✕ an error message is returned
+      expected undefined to be a string
 04 Stock and Quantity Rules\Get Menu - Read Item B (200 OK) - 3 ms
 Tests
    ✕ invalid quantity orders did not change item B stock
-      expected 2 to equal 1
+      expected 1.5 to equal 1
+   ✕ every stock value is a whole number
+      Fried Rice stock = 1.5: expected false to be true
    ✓ status is 200
-04 Stock and Quantity Rules\Create Order - Buy All Remaining Stock (200 OK) - 2 ms
+04 Stock and Quantity Rules\Create Order - Buy All Remaining Stock (200 OK) - 3 ms
 Tests
    ✕ totalPrice equals menu price x quantity
-      expected 85 to equal 90
+      expected 62.5 to equal 67.5
    ✓ status is 200
    ✓ status is created
-04 Stock and Quantity Rules\Create Order - Sold Out Item (400 BAD REQUEST) - 3 ms
+04 Stock and Quantity Rules\Create Order - Sold Out Item (400 BAD REQUEST) - 2 ms
 Tests
    ✓ status is 400 (request rejected)
    ✓ no order is created
@@ -131,30 +175,39 @@ Tests
 Tests
    ✓ status is 200
    ✓ sold out item has stock exactly 0
+   ✓ every stock value is a whole number
 05 Get Order Edge Cases\Get Order - Non-Existent Id (200 OK) - 3 ms
 Tests
    ✕ status is 404
       expected 200 to equal 404
    ✓ error says order not found
    ✓ no order data is returned
-05 Get Order Edge Cases\Get Order - Existing Id Still Stored (200 OK) - 3 ms
+05 Get Order Edge Cases\Get Order - Existing Id Still Stored (200 OK) - 2 ms
 Tests
    ✓ status is 200
    ✓ the order from the happy path is still stored
+05 Get Order Edge Cases\Get Order - Without Token (200 OK) - 3 ms
+Tests
+   ✕ status is 401 without a token
+      expected 200 to equal 401
+   ✕ order details are not exposed
+      expected { orderId: 'ORD-59da62', …(2) } to not have property 'totalPrice'
+06 Token Expiry (opt-in, slow)\Login - Token For Expiry Test (request skipped via pre-request script)
+06 Token Expiry (opt-in, slow)\Create Order - Expired Token (request skipped via pre-request script)
 
 📊 Execution Summary
-┌───────────────┬───────────────────────────┐
-│ Metric        │          Result           │
-├───────────────┼───────────────────────────┤
-│ Status        │          ✗ FAIL           │
-├───────────────┼───────────────────────────┤
-│ Requests      │ 23 (12 Passed, 11 Failed) │
-├───────────────┼───────────────────────────┤
-│ Tests         │           49/73           │
-├───────────────┼───────────────────────────┤
-│ Assertions    │            0/0            │
-├───────────────┼───────────────────────────┤
-│ Duration (ms) │           2428            │
-└───────────────┴───────────────────────────┘
+┌───────────────┬──────────────────────────────────────┐
+│ Metric        │                Result                │
+├───────────────┼──────────────────────────────────────┤
+│ Status        │                ✗ FAIL                │
+├───────────────┼──────────────────────────────────────┤
+│ Requests      │ 30 (12 Passed, 16 Failed, 2 Skipped) │
+├───────────────┼──────────────────────────────────────┤
+│ Tests         │                52/95                 │
+├───────────────┼──────────────────────────────────────┤
+│ Assertions    │                 0/0                  │
+├───────────────┼──────────────────────────────────────┤
+│ Duration (ms) │                 3154                 │
+└───────────────┴──────────────────────────────────────┘
 Wrote html results to ../test-results/report.html
 Wrote junit results to ../test-results/junit.xml

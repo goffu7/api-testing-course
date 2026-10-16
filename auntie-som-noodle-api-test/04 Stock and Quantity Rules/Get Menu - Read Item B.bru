@@ -1,7 +1,7 @@
 meta {
   name: Get Menu - Read Item B
   type: http
-  seq: 8
+  seq: 9
 }
 
 get {
@@ -26,5 +26,11 @@ tests {
   test("invalid quantity orders did not change item B stock", function () {
     const b = res.body.find(i => i.id === Number(bru.getVar("itemBId")));
     expect(b.stock).to.equal(Number(bru.getVar("itemBStockInitial")));
+  });
+
+  test("every stock value is a whole number", function () {
+    res.body.forEach(function (item) {
+      expect(Number.isInteger(item.stock), item.name + " stock = " + item.stock).to.be.true;
+    });
   });
 }

@@ -1,0 +1,11 @@
+meta {
+  name: 06 Token Expiry (opt-in, slow)
+  seq: 6
+}
+
+docs {
+  Skipped unless the env var runExpiryTest is "true", because it waits for
+  the real token lifetime (expiresIn = 3600 s, plus 5 s).
+
+  npx @usebruno/cli run "06 Token Expiry (opt-in, slow)" --env local --env-var runExpiryTest=true
+}

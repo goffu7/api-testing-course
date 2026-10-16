@@ -1,7 +1,7 @@
 meta {
   name: Get Menu - Sold Out Item Shows Zero
   type: http
-  seq: 11
+  seq: 12
 }
 
 get {
@@ -22,5 +22,11 @@ tests {
   test("sold out item has stock exactly 0", function () {
     const b = res.body.find(i => i.id === Number(bru.getVar("itemBId")));
     expect(b.stock).to.equal(0);
+  });
+
+  test("every stock value is a whole number", function () {
+    res.body.forEach(function (item) {
+      expect(Number.isInteger(item.stock), item.name + " stock = " + item.stock).to.be.true;
+    });
   });
 }

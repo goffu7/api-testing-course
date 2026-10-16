@@ -1,0 +1,36 @@
+meta {
+  name: Create Order - Fractional Quantity
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/orders
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "itemId": {{itemBId}},
+    "quantity": 0.5
+  }
+}
+
+tests {
+  test("status is 400 (half a bowl cannot be ordered)", function () {
+    expect(res.status).to.equal(400);
+  });
+
+  test("no order is created", function () {
+    expect(res.body).to.not.have.property("orderId");
+  });
+
+  test("an error message is returned", function () {
+    expect(res.body.error).to.be.a("string").and.not.be.empty;
+  });
+}

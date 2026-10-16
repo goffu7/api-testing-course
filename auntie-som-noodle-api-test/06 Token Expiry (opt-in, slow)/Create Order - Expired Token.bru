@@ -1,0 +1,50 @@
+meta {
+  name: Create Order - Expired Token
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/orders
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{expiryToken}}
+}
+
+body:json {
+  {
+    "itemId": 999,
+    "quantity": 1
+  }
+}
+
+script:pre-request {
+  if (String(bru.getEnvVar("runExpiryTest")) !== "true") {
+    bru.runner.skipRequest();
+    return;
+  }
+  // Wait until the token is past its announced lifetime (+5 s margin)
+  const expiresAt = Number(bru.getVar("expiryIssuedAt")) + (Number(bru.getVar("expiryLifetimeSec")) + 5) * 1000;
+  const waitMs = Math.max(0, expiresAt - Date.now());
+  console.log("Waiting " + Math.round(waitMs / 1000) + " s for the token to expire...");
+  await bru.sleep(waitMs);
+}
+
+docs {
+  itemId 999 keeps stock untouched. A correct API answers 401 because the
+  token expired. If the token is still accepted, the API answers 404
+  "Item not found" instead.
+}
+
+tests {
+  test("expired token is rejected with 401", function () {
+    expect(res.status).to.equal(401);
+  });
+
+  test("no order is created", function () {
+    expect(res.body).to.not.have.property("orderId");
+  });
+}

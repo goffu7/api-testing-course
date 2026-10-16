@@ -37,4 +37,13 @@ tests {
   test("an error message is returned", function () {
     expect(res.body.error).to.be.a("string").and.not.be.empty;
   });
+
+  test("error response is JSON, not an HTML page", function () {
+    expect(res.headers["content-type"]).to.include("application/json");
+  });
+
+  test("no stack trace or source code is leaked", function () {
+    const text = typeof res.body === "string" ? res.body : JSON.stringify(res.body);
+    expect(text).to.not.match(/Traceback|Werkzeug|app\.py/);
+  });
 }

@@ -6,5 +6,8 @@ docs {
   Run against a FRESH server (restart `python app.py`), because the API keeps
   menu stock and orders in memory and several requests change stock.
 
-  CLI: `npx @usebruno/cli run --env local`
+  CLI: `npx @usebruno/cli run --env local -r`
+
+  Folder 06 (token expiry) waits ~1 hour and is skipped unless the env var
+  `runExpiryTest` is `true`.
 }
