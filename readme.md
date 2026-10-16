@@ -4,7 +4,7 @@ Bruno test collection that audits Nephew Lek's noodle stall API.
 The collection is in [`auntie-som-noodle-api-test/`](auntie-som-noodle-api-test). Saved run results are in [`test-results/`](test-results).
 
 > **Result on a fresh server: 52 / 95 tests pass, 43 fail, 2 requests skipped** (the slow, opt-in token-expiry test; see below).
-> **All 13 bugs found are covered by automated tests.** Every failing test points to a real bug listed below. That is the expected result: the tests are written to **fail when the business logic is wrong**, even when the API answers `200 OK`.
+> **All 13 bugs found are covered by automated tests.** The token-expiry test is opt-in because it takes about 1 hour. Every failing test points to a real bug listed below. That is the expected result: the tests are written to **fail when the business logic is wrong**, even when the API answers `200 OK`.
 
 ---
 
@@ -64,7 +64,7 @@ Values are passed between requests with scripts (`bru.setVar` / `bru.getVar`), n
 | 3 | 🔴 High | **Zero quantity is accepted.** It creates a real order with `totalPrice: -5`, so Auntie *owes* the customer money. | `create_order` (no quantity validation) | `Create Order - Zero Quantity` (`expected -5 to be above +0`) |
 | 4 | 🔴 High | **Negative quantity is accepted.** `quantity: -1` creates an order with `totalPrice: -50` and **adds** 1 to the stock. Customers could "sell" noodles back and create fake stock. | `create_order` | `Create Order - Negative Quantity` (`expected -50 to be above +0`); `Get Menu - Read Item B` (stock changed) |
 | 5 | 🔴 High | **Fractional quantity is accepted.** `quantity: 0.5` creates an order for half a bowl (`totalPrice: 17.5`), and stock becomes **1.5**. | `create_order` (no integer check) | `Create Order - Fractional Quantity` (`expected 200 to equal 400`); `Get Menu - Read Item B` → *every stock value is a whole number* (`Fried Rice stock = 1.5`) |
-| 6 | 🔴 High | **Tokens never expire.** Login says `expiresIn: 3600`, but `require_auth()` never checks `createdAt`, so a stolen token works forever (until the server restarts). | `require_auth` | `06 Token Expiry` → `Create Order - Expired Token` → *expired token is rejected with 401* (`expected 404 to equal 401`, because the 61-minute-old token was still accepted). Output in [`test-results/token-expiry-output.txt`](test-results/token-expiry-output.txt) |
+| 6 | 🔴 High | **Tokens never expire.** Login says `expiresIn: 3600`, but `require_auth()` never checks `createdAt`, so a stolen token works forever (until the server restarts). | `require_auth` | `06 Token Expiry` → `Create Order - Expired Token` → *expired token is rejected with 401*. On this API the test should fail with `expected 404 to equal 401`, because the old token is still accepted. ⚠️ The full 61-minute run has not been completed: my run was stopped part-way when the machine ran low on memory. The bug is confirmed by code review (`createdAt` is stored but never read). |
 | 7 | 🟠 Medium | **Order details are public.** `GET /orders/<id>` has no auth check, so anyone who knows or guesses an order id can read it. | `get_order` | `Get Order - Without Token` (`expected 200 to equal 401`) |
 | 8 | 🟠 Medium | **The `Bearer ` prefix is not required.** `require_auth()` only does `replace("Bearer ", "")`, so `Authorization: <token>` without the scheme is also accepted. | `require_auth` | `Create Order - Token Without Bearer Prefix` (`expected 404 to equal 401`, because auth passed and the request reached the item lookup) |
 | 9 | 🟠 Medium | **Missing quantity crashes the server (500).** `stock -= None` raises a `TypeError`. | `create_order` | `Create Order - Missing Quantity` → *server does not crash (no 5xx)* (`expected 500 to be below 500`) |
@@ -105,7 +105,6 @@ auntie-som-noodle-api-test/   # Bruno collection "Auntie Som Lab"
   01 Auth/ ... 06 Token Expiry (opt-in, slow)/
 test-results/                 # output of runs on a fresh server
   cli-output.txt  report.html  junit.xml   # main run
-  token-expiry-output.txt                  # 1-hour expiry run
 ```
 
 > Note: in the original repo, `auntie-som-noodle-api-test` was an empty placeholder file. I replaced it with the Bruno collection folder of the same name.
